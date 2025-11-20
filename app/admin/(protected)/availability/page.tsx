@@ -85,12 +85,11 @@ export default function AvailabilityPage() {
             }
           })
           
-          const newAvailability = weeklyAvailability.map((day) => ({
+          setWeeklyAvailability((prev) => prev.map((day) => ({
             ...day,
             timeSlots: generateTimeSlots(availabilityByDay[day.dayOfWeek] || []),
             isActive: (availabilityByDay[day.dayOfWeek]?.length || 0) > 0,
-          }))
-          setWeeklyAvailability(newAvailability)
+          })))
         }
       }
     } catch (error) {
