@@ -1,8 +1,25 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Calendar, Users, FileText, MessageSquare } from 'lucide-react'
+import { Calendar, Users, FileText, MessageSquare, Mail } from 'lucide-react'
 import Link from 'next/link'
+import { prisma } from '@/lib/prisma'
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  // Fetch stats
+  const [pendingBookings, upcomingBookings, blogPosts, testimonials, contactSubmissions] = await Promise.all([
+    prisma.booking.count({ where: { status: 'PENDING' } }),
+    prisma.booking.count({ 
+      where: { 
+        status: 'CONFIRMED',
+        date: {
+          gte: new Date(),
+          lte: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // Next 7 days
+        }
+      } 
+    }),
+    prisma.blogPost.count({ where: { isPublished: true } }),
+    prisma.testimonial.count({ where: { isApproved: true } }),
+    prisma.contactSubmission.count()
+  ])
   return (
     <div className="space-y-8">
       <div>
@@ -18,7 +35,7 @@ export default function AdminDashboard() {
               <Calendar className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">0</div>
+              <div className="text-2xl font-bold">{pendingBookings}</div>
               <p className="text-xs text-muted-foreground">Awaiting confirmation</p>
             </CardContent>
           </Card>
@@ -31,7 +48,7 @@ export default function AdminDashboard() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">0</div>
+              <div className="text-2xl font-bold">{upcomingBookings}</div>
               <p className="text-xs text-muted-foreground">Upcoming sessions</p>
             </CardContent>
           </Card>
@@ -44,7 +61,7 @@ export default function AdminDashboard() {
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">0</div>
+              <div className="text-2xl font-bold">{blogPosts}</div>
               <p className="text-xs text-muted-foreground">Published articles</p>
             </CardContent>
           </Card>
@@ -57,8 +74,23 @@ export default function AdminDashboard() {
               <MessageSquare className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">0</div>
+              <div className="text-2xl font-bold">{testimonials}</div>
               <p className="text-xs text-muted-foreground">Client reviews</p>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/admin/contact-submissions">
+          <Card className="hover:border-primary transition-colors cursor-pointer">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Contact Messages</CardTitle>
+              <Mail className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{contactSubmissions}</div>
+              <p className="text-xs text-muted-foreground">
+                {contactSubmissions > 0 ? 'Needs attention' : 'No new messages'}
+              </p>
             </CardContent>
           </Card>
         </Link>
@@ -79,6 +111,9 @@ export default function AdminDashboard() {
             </Link>
             <Link href="/admin/blog" className="block p-3 rounded-md hover:bg-accent transition-colors">
               → Create new blog post
+            </Link>
+            <Link href="/admin/contact-submissions" className="block p-3 rounded-md hover:bg-accent transition-colors">
+              → View contact messages
             </Link>
           </CardContent>
         </Card>
