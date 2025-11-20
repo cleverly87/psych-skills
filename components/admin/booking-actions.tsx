@@ -17,12 +17,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 
-export function BookingActions({ bookingId }: { bookingId: string }) {
+export function BookingActions({ bookingId, onUpdate }: { bookingId: string; onUpdate?: () => void }) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [alternativeDate, setAlternativeDate] = useState('')
   const [alternativeTime, setAlternativeTime] = useState('')
   const [message, setMessage] = useState('')
+  const [cancelReason, setCancelReason] = useState('')
 
   const handleConfirm = async () => {
     setIsLoading(true)
@@ -31,7 +32,11 @@ export function BookingActions({ bookingId }: { bookingId: string }) {
         method: 'POST',
       })
       if (res.ok) {
-        router.refresh()
+        if (onUpdate) {
+          onUpdate()
+        } else {
+          router.refresh()
+        }
       }
     } catch (error) {
       console.error(error)
@@ -49,7 +54,33 @@ export function BookingActions({ bookingId }: { bookingId: string }) {
         body: JSON.stringify({ message }),
       })
       if (res.ok) {
-        router.refresh()
+        if (onUpdate) {
+          onUpdate()
+        } else {
+          router.refresh()
+        }
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleCancel = async () => {
+    setIsLoading(true)
+    try {
+      const res = await fetch(`/api/admin/bookings/${bookingId}/cancel`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reason: cancelReason }),
+      })
+      if (res.ok) {
+        if (onUpdate) {
+          onUpdate()
+        } else {
+          router.refresh()
+        }
       }
     } catch (error) {
       console.error(error)
@@ -118,10 +149,46 @@ export function BookingActions({ bookingId }: { bookingId: string }) {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setMessage('')}>
-              Cancel
+              Back
             </Button>
             <Button variant="destructive" onClick={handleDecline} disabled={isLoading}>
               Decline Booking
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="secondary" disabled={isLoading}>
+            <XCircle className="h-4 w-4 mr-2" />
+            Cancel
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Cancel Booking</DialogTitle>
+            <DialogDescription>
+              Cancel this booking (e.g., client requested cancellation, unforeseen circumstances, etc.).
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="cancel-reason">Reason (Optional)</Label>
+              <Textarea
+                id="cancel-reason"
+                placeholder="Client requested cancellation..."
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setCancelReason('')}>
+              Back
+            </Button>
+            <Button variant="default" onClick={handleCancel} disabled={isLoading} className="bg-amber-500 hover:bg-amber-600">
+              Cancel Booking
             </Button>
           </DialogFooter>
         </DialogContent>

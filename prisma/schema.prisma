@@ -39,6 +39,7 @@ model Booking {
   notes         String?
   status        BookingStatus @default(PENDING)
   paymentStatus PaymentStatus @default(UNPAID)
+  adminNotes    String?
   
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
@@ -60,6 +61,7 @@ enum ServiceType {
 enum BookingStatus {
   PENDING
   CONFIRMED
+  DECLINED
   CANCELLED
   COMPLETED
 }

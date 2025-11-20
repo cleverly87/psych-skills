@@ -108,9 +108,22 @@ export function Footer() {
               </Link>
             </div>
           </div>
-          <p className="mt-4 text-center text-xs text-muted-foreground">
-            Dr. Denise Hill - HCPC Registered Practitioner Psychologist
-          </p>
+          <div className="mt-4 flex flex-col items-center gap-2">
+            <p className="text-center text-xs text-muted-foreground">
+              Dr. Denise Hill - HCPC Registered Practitioner Psychologist
+            </p>
+            <p className="text-center text-xs text-muted-foreground/60">
+              System built by{' '}
+              <a 
+                href="https://clever-technical-writing.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary/80 hover:text-primary transition-colors font-medium"
+              >
+                CTW
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

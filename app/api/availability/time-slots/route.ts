@@ -38,11 +38,35 @@ export async function GET(request: Request) {
       return NextResponse.json([])
     }
 
-    // Convert available hours to time slots
+    // Get all confirmed/pending bookings for this date
+    const dateStart = new Date(dateStr)
+    dateStart.setHours(0, 0, 0, 0)
+    const dateEnd = new Date(dateStr)
+    dateEnd.setHours(23, 59, 59, 999)
+
+    const bookedSlots = await prisma.booking.findMany({
+      where: {
+        date: {
+          gte: dateStart,
+          lt: dateEnd,
+        },
+        status: {
+          in: ['PENDING', 'CONFIRMED'],
+        },
+      },
+      select: {
+        timeSlot: true,
+      },
+    })
+
+    const bookedTimes = new Set(bookedSlots.map(b => b.timeSlot))
+
+    // Convert available hours to time slots and filter out booked ones
     const availableHours = availability.availableHours as number[]
     const timeSlots = availableHours
       .sort((a, b) => a - b)
       .map(hour => `${hour.toString().padStart(2, '0')}:00`)
+      .filter(slot => !bookedTimes.has(slot))
 
     return NextResponse.json(timeSlots)
   } catch (error) {

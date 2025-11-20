@@ -7,6 +7,14 @@ interface EmailOptions {
 }
 
 export async function sendEmail({ to, subject, html }: EmailOptions) {
+  // Check if email is configured
+  if (!process.env.EMAIL_SERVER_USER || process.env.EMAIL_SERVER_USER === 'your-email@gmail.com') {
+    console.log('📧 Email not configured - would have sent:')
+    console.log(`   To: ${to}`)
+    console.log(`   Subject: ${subject}`)
+    return { messageId: 'email-not-configured' }
+  }
+
   // Create transporter
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_SERVER_HOST,
@@ -27,10 +35,11 @@ export async function sendEmail({ to, subject, html }: EmailOptions) {
       html,
     })
 
-    console.log('Email sent:', info.messageId)
+    console.log('✅ Email sent:', info.messageId)
     return info
   } catch (error) {
-    console.error('Email error:', error)
-    throw error
+    console.error('❌ Email error:', error)
+    // Don't throw - just log the error so booking still works
+    return { error: true, message: error instanceof Error ? error.message : 'Unknown error' }
   }
 }

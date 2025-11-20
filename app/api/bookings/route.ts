@@ -30,14 +30,14 @@ export async function POST(req: Request) {
       },
     })
 
-    // Send confirmation email to client
-    await sendEmail({
+    // Try to send confirmation email to client (non-blocking)
+    sendEmail({
       to: email,
-      subject: 'Booking Confirmation - Psych-Skills',
+      subject: 'Booking Request Received - Psych-Skills',
       html: `
-        <h2>Thank you for booking with Psych-Skills!</h2>
+        <h2>Thank you for your booking request!</h2>
         <p>Dear ${name},</p>
-        <p>Your session has been successfully booked. Here are the details:</p>
+        <p>We have received your session booking request. Here are the details:</p>
         <ul>
           <li><strong>Service:</strong> ${serviceType.replace('_', ' ')}</li>
           <li><strong>Date:</strong> ${new Date(date).toLocaleDateString('en-GB', { 
@@ -48,23 +48,30 @@ export async function POST(req: Request) {
           })}</li>
           <li><strong>Time:</strong> ${timeSlot}</li>
         </ul>
-        <p><strong>Important:</strong> No payment is required at this time. Payment details will be provided separately before your session.</p>
-        <p>Dr. Denise Hill will confirm your booking shortly and may reach out if she has any questions.</p>
-        <p>We look forward to working with you!</p>
-        <p>Best regards,<br/>The Psych-Skills Team</p>
+        <p><strong>Next Steps:</strong></p>
+        <p>Dr. Denise Hill will review your request and confirm your booking within 24-48 hours. You will receive a confirmation email once your session is approved.</p>
+        <p><strong>Note:</strong> No payment is required at this time. Payment details will be provided after your booking is confirmed.</p>
+        <p>If you have any questions, please don't hesitate to reach out.</p>
+        <p>Best regards,<br/>Dr. Denise Hill<br/>Psych-Skills</p>
       `,
-    })
+    }).catch(err => console.error('Client email failed:', err))
 
-    // Send notification email to admin
-    await sendEmail({
-      to: process.env.ADMIN_EMAIL || 'admin@psych-skills.com',
-      subject: `New Booking: ${name} - ${new Date(date).toLocaleDateString()}`,
+    // Try to send notification email to admin (non-blocking)
+    sendEmail({
+      to: process.env.ADMIN_EMAIL || 'info@psych-skills.com',
+      subject: `🔔 New Booking Request: ${name} - ${new Date(date).toLocaleDateString('en-GB')}`,
       html: `
-        <h2>New Booking Received</h2>
+        <h2>New Booking Request Received</h2>
+        <p><strong>Action Required:</strong> Please review and confirm this booking in the admin dashboard.</p>
+        <hr/>
+        <h3>Client Details:</h3>
         <ul>
-          <li><strong>Client:</strong> ${name}</li>
+          <li><strong>Name:</strong> ${name}</li>
           <li><strong>Email:</strong> ${email}</li>
           <li><strong>Phone:</strong> ${phone || 'Not provided'}</li>
+        </ul>
+        <h3>Session Details:</h3>
+        <ul>
           <li><strong>Service:</strong> ${serviceType.replace('_', ' ')}</li>
           <li><strong>Date:</strong> ${new Date(date).toLocaleDateString('en-GB', { 
             weekday: 'long', 
@@ -73,11 +80,13 @@ export async function POST(req: Request) {
             day: 'numeric' 
           })}</li>
           <li><strong>Time:</strong> ${timeSlot}</li>
-          <li><strong>Notes:</strong> ${notes || 'None'}</li>
+          <li><strong>Status:</strong> PENDING</li>
         </ul>
-        <p>Log in to the admin dashboard to confirm or manage this booking.</p>
+        ${notes ? `<h3>Client Notes:</h3><p>${notes}</p>` : ''}
+        <hr/>
+        <p><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/admin/bookings" style="background: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">View in Admin Dashboard</a></p>
       `,
-    })
+    }).catch(err => console.error('Admin email failed:', err))
 
     return NextResponse.json({ success: true, booking }, { status: 201 })
   } catch (error) {
