@@ -71,6 +71,12 @@ export default async function AdminLayout({
               >
                 Testimonials
               </a>
+              <a
+                href="/admin/contact-submissions"
+                className="block px-4 py-2 rounded-md hover:bg-accent transition-colors"
+              >
+                Contact Submissions
+              </a>
             </div>
           </nav>
 

@@ -40,9 +40,16 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <p className="text-xl text-gray-300 dark:text-gray-300 light:text-gray-700 leading-relaxed">
-                  Extensively qualified sports psychologist with over 25 years of professional experience 
-                  working at the elite level of golf and with professional sports teams.
+                  As a HCPC registered Practitioner Psychologist - I have built a global reputation for providing expert consultancy services to aspiring, elite, and professional golfers. Your success and well-being are my utmost priority, and I am committed to helping you achieve your full potential.
                 </p>
+                <p className="text-lg text-gray-300 dark:text-gray-300 light:text-gray-700 leading-relaxed mt-4">
+                  Whether you are looking to enhance your performance, overcome mental barriers, or simply seek guidance on your golfing journey - I am here to support you every step of the way.
+                </p>
+                <div className="mt-8">
+                  <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                    <Link href="/contact">Get in touch today</Link>
+                  </Button>
+                </div>
               </div>
               <div className="relative h-[500px] rounded-lg overflow-hidden">
                 <Image 
@@ -70,10 +77,9 @@ export default function AboutPage() {
               <Card className="text-center hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
                 <CardContent className="pt-8 pb-6">
                   <Award className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-bold text-xl mb-3">PhD in Performance Psychology</h3>
+                  <h3 className="font-bold text-xl mb-3">Elite Golfer</h3>
                   <p className="text-gray-400 dark:text-gray-400 light:text-gray-600">
-                    Doctoral research on golf performance under pressure and psychological interventions 
-                    for optimal performance.
+                    As an international golfer, I experienced the detrimental impact of pressure. This drove me to gain a comprehensive understanding of how players can develop a mindset that leads to an enjoyable and successful golfing journey.
                   </p>
                 </CardContent>
               </Card>
@@ -81,10 +87,9 @@ export default function AboutPage() {
               <Card className="text-center hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
                 <CardContent className="pt-8 pb-6">
                   <BookOpen className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-bold text-xl mb-3">HCPC Registered</h3>
+                  <h3 className="font-bold text-xl mb-3">Associate Professor</h3>
                   <p className="text-gray-400 dark:text-gray-400 light:text-gray-600">
-                    Health and Care Professions Council registration ensuring highest standards of 
-                    professional practice and ethics.
+                    After gaining a degree (Loughborough University) and MSc. (Exeter University), I completed a PhD exploring choking under pressure among professional golfers. I am now an Associate Professor of Applied Sport Psychology.
                   </p>
                 </CardContent>
               </Card>
@@ -92,10 +97,9 @@ export default function AboutPage() {
               <Card className="text-center hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
                 <CardContent className="pt-8 pb-6">
                   <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-bold text-xl mb-3">25+ Years Experience</h3>
+                  <h3 className="font-bold text-xl mb-3">Golf Psychology Consultant</h3>
                   <p className="text-gray-400 dark:text-gray-400 light:text-gray-600">
-                    Extensive work with professional golfers, international teams, and high-performance 
-                    athletes across disciplines.
+                    After becoming a HCPC registered Practitioner Psychologist, I have applied my knowledge and expertise within the field for over 25 years, working across multiple sports with a focus on supporting aspiring, elite, and professional golfers.
                   </p>
                 </CardContent>
               </Card>

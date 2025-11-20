@@ -1,17 +1,68 @@
+'use client'
+
+import { useState } from 'react'
 import { Metadata } from 'next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { Mail, MapPin, Phone } from 'lucide-react'
-
-export const metadata: Metadata = {
-  title: 'Contact Us',
-  description: 'Get in touch with Dr. Denise Hill at Psych-Skills. Based in Swansea, United Kingdom. Contact us for inquiries about golf psychology services.',
-}
+import { Mail, MapPin, CheckCircle2 } from 'lucide-react'
 
 export default function ContactPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      const formData = new FormData(e.currentTarget)
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        setIsSuccess(true)
+      } else {
+        alert('Failed to send message. Please try again.')
+      }
+    } catch (error) {
+      alert('An error occurred. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  if (isSuccess) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <section className="flex-1 flex items-center justify-center py-16 sm:py-24">
+          <div className="container mx-auto px-4 lg:px-8">
+            <Card className="max-w-2xl mx-auto">
+              <CardContent className="pt-6 text-center space-y-4">
+                <CheckCircle2 className="h-16 w-16 text-primary mx-auto" />
+                <h2 className="text-2xl font-bold text-foreground">Message Sent Successfully!</h2>
+                <p className="text-muted-foreground">
+                  Thank you for getting in touch. We'll respond to your message as soon as possible.
+                </p>
+                <div className="pt-6 flex gap-4 justify-center">
+                  <Button onClick={() => setIsSuccess(false)} variant="outline">
+                    Send Another Message
+                  </Button>
+                  <Button asChild>
+                    <a href="/">Return to Homepage</a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      </div>
+    )
+  }
   return (
     <div className="flex flex-col">
       {/* Hero */}
@@ -42,26 +93,26 @@ export default function ContactPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form className="space-y-4" action="/api/contact" method="POST">
+                <form className="space-y-4" onSubmit={handleSubmit}>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name *</Label>
-                      <Input id="name" name="name" required />
+                      <Input id="name" name="name" required disabled={isSubmitting} />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email *</Label>
-                      <Input id="email" name="email" type="email" required />
+                      <Input id="email" name="email" type="email" required disabled={isSubmitting} />
                     </div>
                   </div>
                   
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" name="phone" type="tel" />
+                    <Input id="phone" name="phone" type="tel" disabled={isSubmitting} />
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="subject">Subject</Label>
-                    <Input id="subject" name="subject" />
+                    <Input id="subject" name="subject" disabled={isSubmitting} />
                   </div>
 
                   <div className="space-y-2">
@@ -71,12 +122,13 @@ export default function ContactPage() {
                       name="message" 
                       rows={6} 
                       required
+                      disabled={isSubmitting}
                       placeholder="Tell us about your goals, concerns, or any questions you have..."
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full">
-                    Send Message
+                  <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
                   </Button>
                 </form>
               </CardContent>
