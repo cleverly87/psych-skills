@@ -100,7 +100,6 @@ export default function AvailabilityPage() {
 
   useEffect(() => {
     fetchAvailability()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchAvailability])
 
   const addBlockedDate = async () => {
