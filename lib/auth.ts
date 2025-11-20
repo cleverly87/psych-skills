@@ -2,6 +2,7 @@ import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
+import { loginRateLimiter } from '@/lib/rate-limit'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -11,39 +12,36 @@ export const authOptions: NextAuthOptions = {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) {
-          console.log('❌ Missing credentials')
           return null
         }
 
-        console.log('🔍 Looking for user:', credentials.email)
+        // Rate limiting by IP
+        const forwarded = req.headers?.['x-forwarded-for']
+        const ip = typeof forwarded === 'string' ? forwarded.split(',')[0] : 'unknown'
+        
+        const rateLimitResult = loginRateLimiter.check(ip)
+        if (!rateLimitResult.success) {
+          throw new Error('Too many login attempts. Please try again in 15 minutes.')
+        }
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         })
 
         if (!user) {
-          console.log('❌ User not found:', credentials.email)
           return null
         }
-
-        console.log('✅ User found:', user.email)
-        console.log('🔒 Comparing passwords...')
 
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
           user.password
         )
 
-        console.log('🔑 Password valid:', isPasswordValid)
-
         if (!isPasswordValid) {
-          console.log('❌ Invalid password')
           return null
         }
-
-        console.log('✅ Login successful for:', user.email)
 
         return {
           id: user.id,
@@ -75,6 +73,7 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: 'jwt' as const,
+    maxAge: 24 * 60 * 60, // 24 hours
   },
   secret: process.env.NEXTAUTH_SECRET,
 }

@@ -1,0 +1,126 @@
+{
+  "users": [
+    {
+      "id": "cmi77d83z0000o11jdpgwksmn",
+      "email": "info@psych-skills.com",
+      "name": "Admin",
+      "password": "$2a$10$cbtWDZ1oIqiyck9Q3HigIeH3TD1ModVG6klB1J9Om2rV5IkuW9fAy",
+      "role": "OWNER",
+      "createdAt": "2025-11-20T09:02:09.743Z",
+      "updatedAt": "2025-11-20T12:14:18.306Z"
+    },
+    {
+      "id": "cmi7eezp300007buxiug56iy7",
+      "email": "info@psych-skills.co.uk",
+      "name": "Admin",
+      "password": "$2a$10$r15pQF6xlJ8lO.etlS5ceuFm3L315aV3/ZMa.YoTwuL2GlK8SaP/6",
+      "role": "ADMIN",
+      "createdAt": "2025-11-20T12:19:29.464Z",
+      "updatedAt": "2025-11-20T12:19:42.040Z"
+    }
+  ],
+  "bookings": [],
+  "services": [],
+  "availability": [
+    {
+      "id": "cmi7a2zdp0002mfazpjqy5lg5",
+      "dayOfWeek": 1,
+      "availableHours": [
+        9,
+        11,
+        13,
+        15,
+        17
+      ],
+      "isActive": true,
+      "createdAt": "2025-11-20T10:18:10.717Z",
+      "updatedAt": "2025-11-20T10:18:10.717Z"
+    },
+    {
+      "id": "cmi7a2zeq0003mfazi7di4uco",
+      "dayOfWeek": 3,
+      "availableHours": [
+        11,
+        14,
+        17
+      ],
+      "isActive": true,
+      "createdAt": "2025-11-20T10:18:10.717Z",
+      "updatedAt": "2025-11-20T10:18:10.717Z"
+    }
+  ],
+  "blockedDates": [],
+  "blogPosts": [
+    {
+      "id": "cmi7cdhd80000j4mmizd7paqi",
+      "title": "Discover: A new relationship with your performance anxiety",
+      "slug": "discover-a-new-relationship-with-your-performance-anxiety",
+      "excerpt": "Golfers often seek my expertise to manage anxiety on the course, especially during high-pressure moments like the first tee or short putts. While many believe anxiety harms performance, the truth is that it can actually enhance it—when understood and used effectively. My upcoming blogs will explore why anxiety occurs, how it supports clutch performance, and practical techniques to turn nerves into an advantage.",
+      "content": "With my research background in choking under pressure, it is understandable that most clients seek out my service to help them manage their anxiety while on the golf course. They tend to focus on those first tee nerves, the short putts, and then specific shots that due to previous bad experiences, have become particularly challenging. So, that first meeting tends to be along the lines of:  \n\n\n*I can’t play when I am anxious. I just duff the shot, miss the putt, and barely get it off the tee…I play much better when relaxed…I would like to lower my anxiety and become more relaxed on the course, so I can start to shoot lower scores. My anxiety is holding me back!* \n \n\nMost golfers – regardless of level - will appreciate this sentiment. As of course it’s a given that we do play well when we are just out for a social game of golf, when we have no expectations, when there is no pressure. But the reality is, that regardless of whether we are a club golfer playing mainly for fun, or a professional player on tour: there will always be games, shots, putts, and moments, when we feel pressure. And as a result, of that, there will also be games, shots, putts, and moments, when we feel anxious. \n\nYou can tell yourself that it doesn’t matter, and that you don’t care about the outcome, and you can try and block out any thoughts about the shot and your anxiety. But this kidology will only get you so far, as it’s not the reality - and in the end, is actually counter-productive to your performance and golfing experience. \n\nMost critically, anxiety HELPS our performance, rather than damage it. Instead, it is our attempts to lower, block, and ignore our anxiety, and see it as unhelpful to our performance, that brings about the negative impact and poor shots – NOT the anxiety itself.  \n\nSo, in my first series of blogs, I will chat through what happens to us when we play golf under pressure, and I will explain why we experience anxiety. I will then note why anxiety (when utilised appropriately) encourages our BEST, OPTIMAL, and CLUTCH performances. Finally, I will introduce techniques that can be used during your pressurised performances to ensure that those first tee nerves and that short-putt anxiety becomes your friend and not the foe – leading you to realize that you can perform well under pressure, and even start to enjoy those moments.  \n \nHappy golfing  \n\nDr Denise Hill (PsychSkills) Dx  ",
+      "featuredImage": "/images/Blog_1.png",
+      "isPublished": true,
+      "publishedAt": "2025-11-20T11:22:19.819Z",
+      "authorId": null,
+      "seoTitle": null,
+      "seoDescription": null,
+      "createdAt": "2025-11-20T11:22:19.820Z",
+      "updatedAt": "2025-11-20T11:22:19.820Z"
+    }
+  ],
+  "tags": [],
+  "testimonials": [
+    {
+      "id": "cmi7ay97u000017fak39xthnz",
+      "clientName": "Lydia Hall",
+      "clientTitle": "Ladies European Tour Member and Winner",
+      "content": "I have been working with Denise closely over the past two years and she has helped me to not only rediscover who I am as a professional golfer, but who I am as a person, and who I want to be. Her help and knowledge in applying psychology in sport has reignited my love of golf, and most importantly, has allowed me to be my authentic self.",
+      "rating": 5,
+      "featured": false,
+      "imageUrl": "/images/Lydia Hall.png",
+      "isApproved": true,
+      "displayOrder": 1,
+      "createdAt": "2025-11-20T10:42:29.802Z",
+      "updatedAt": "2025-11-20T10:49:08.235Z"
+    },
+    {
+      "id": "cmi7ay9dj000117faaq62e46u",
+      "clientName": "Amy Walsh",
+      "clientTitle": "European Tour Member",
+      "content": "I have been working with Denise for a little over a year and the progress I have made in that time has taken me from questioning my place in the world of professional golf, to excitedly looking forward to the season ahead. I was totally crippled by anxiety on the golf course. However thanks to Denise's extensive expertise, and her real world approach to implementing techniques, I'm well on my way to reaching my goals. Thanks Denise for making me feel heard and understood, and for your no-nonsense way of continuing to help me find my best self!",
+      "rating": 5,
+      "featured": false,
+      "imageUrl": "/images/Amy Walsh.png",
+      "isApproved": true,
+      "displayOrder": 2,
+      "createdAt": "2025-11-20T10:42:30.007Z",
+      "updatedAt": "2025-11-20T10:52:16.221Z"
+    },
+    {
+      "id": "cmi7ay9o5000317faoz5fa1tr",
+      "clientName": "Cardiff Golf Club",
+      "clientTitle": "Group Workshop",
+      "content": "Denise is fantastic & has a great energy. Denise's session was one of the best received, and by far the easiest to sell tickets for. Her insight into the balance of time working on physical, technical ability and psychology for your game, was intuitive and inspirational.",
+      "rating": 5,
+      "featured": false,
+      "imageUrl": null,
+      "isApproved": true,
+      "displayOrder": 4,
+      "createdAt": "2025-11-20T10:42:30.390Z",
+      "updatedAt": "2025-11-20T10:49:08.804Z"
+    },
+    {
+      "id": "cmi7ay9iv000217fah1rewvc3",
+      "clientName": "Julian Kelly",
+      "clientTitle": "Captain Southerndown Golf Club 2023",
+      "content": "During my year as Captain of Southerndown Golf Club, I tried to vary the programme of events to offer something of interest to all members. Denise's session was one of the best received, and by far the easiest to sell tickets for. Her insight into the balance of time working on physical, technical ability and psychology for your game, was intuitive and inspirational.",
+      "rating": 5,
+      "featured": false,
+      "imageUrl": null,
+      "isApproved": true,
+      "displayOrder": 3,
+      "createdAt": "2025-11-20T10:42:30.199Z",
+      "updatedAt": "2025-11-20T10:52:16.221Z"
+    }
+  ],
+  "contactSubmissions": []
+}

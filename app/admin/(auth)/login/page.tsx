@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { AlertCircle } from 'lucide-react'
+import Link from 'next/link'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -98,6 +99,15 @@ export default function AdminLoginPage() {
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>
+
+          <div className="mt-4 text-center">
+            <Link 
+              href="/admin/forgot-password" 
+              className="text-sm text-muted-foreground hover:text-foreground"
+            >
+              Forgot your password?
+            </Link>
+          </div>
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
             <p>Default credentials:</p>

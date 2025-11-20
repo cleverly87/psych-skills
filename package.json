@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:backup": "ts-node scripts/backup-db.ts",
+    "db:restore": "ts-node scripts/restore-db.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.7.0",
@@ -35,7 +37,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
-    "@types/node": "^20.10.5",
+    "@types/node": "^20.19.25",
     "@types/nodemailer": "^6.4.14",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
@@ -45,6 +47,7 @@
     "postcss": "^8.4.32",
     "prisma": "^5.7.0",
     "tailwindcss": "^3.4.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "^5.3.3"
   }
