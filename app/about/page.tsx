@@ -117,7 +117,7 @@ export default function AboutPage() {
                 Elite-Level Experience
               </h2>
               <p className="text-xl text-gray-300 leading-relaxed">
-                Dr. Hill&apos;s extensive career spans over 25 years of working at the highest levels of sport, 
+                Dr. Hill's extensive career spans over 25 years of working at the highest levels of sport, 
                 providing psychological support and mental performance coaching to:
               </p>
             </div>
@@ -182,7 +182,7 @@ export default function AboutPage() {
                   <div className="order-2 md:order-1">
                     <h3 className="text-2xl font-bold mb-4">The Psychology of Golf Performance under Pressure</h3>
                     <p className="text-muted-foreground mb-6 leading-relaxed">
-                      Dr. Hill&apos;s groundbreaking book explores the psychological mechanisms behind performance 
+                      Dr. Hill's groundbreaking book explores the psychological mechanisms behind performance 
                       under pressure in golf. Drawing on extensive research and practical experience, this 
                       comprehensive guide offers evidence-based strategies for golfers, coaches, and sport 
                       psychologists.
@@ -238,7 +238,7 @@ export default function AboutPage() {
                   />
                 </div>
                 <p className="text-center text-muted-foreground">
-                  Watch Dr. Hill&apos;s TEDx talk exploring the psychology of performance under pressure and 
+                  Watch Dr. Hill's TEDx talk exploring the psychology of performance under pressure and 
                   how to develop mental resilience in high-stakes situations.
                 </p>
               </CardContent>

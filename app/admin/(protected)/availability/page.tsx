@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -66,11 +66,7 @@ export default function AvailabilityPage() {
   const [newBlockedReason, setNewBlockedReason] = useState('')
   const [isSaving, setIsSaving] = useState(false)
 
-  useEffect(() => {
-    fetchAvailability()
-  }, [])
-
-  const fetchAvailability = async () => {
+  const fetchAvailability = useCallback(async () => {
     try {
       const res = await fetch('/api/admin/availability')
       if (res.ok) {
@@ -100,7 +96,11 @@ export default function AvailabilityPage() {
     } catch (error) {
       console.error('Failed to fetch availability:', error)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    fetchAvailability()
+  }, [fetchAvailability])
 
   const addBlockedDate = async () => {
     if (!newBlockedDate) return
