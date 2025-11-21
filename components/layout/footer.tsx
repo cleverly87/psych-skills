@@ -103,8 +103,8 @@ export function Footer() {
               <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">
                 Terms of Service
               </Link>
-              <Link href="/admin/login" className="text-muted-foreground/30 hover:text-muted-foreground transition-colors text-xs">
-                •
+              <Link href="/admin/login" className="text-muted-foreground hover:text-primary transition-colors">
+                Login
               </Link>
             </div>
           </div>

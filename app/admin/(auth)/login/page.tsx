@@ -1,21 +1,40 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
 
 export default function AdminLoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [captchaAnswer, setCaptchaAnswer] = useState('')
+  const [captchaQuestion, setCaptchaQuestion] = useState('')
+  const [captchaToken, setCaptchaToken] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  const loadCaptcha = async () => {
+    try {
+      const response = await fetch('/api/auth/captcha')
+      const data = await response.json()
+      setCaptchaQuestion(data.question)
+      setCaptchaToken(data.token)
+      setCaptchaAnswer('')
+    } catch (err) {
+      console.error('Failed to load CAPTCHA:', err)
+    }
+  }
+
+  useEffect(() => {
+    loadCaptcha()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,17 +45,21 @@ export default function AdminLoginPage() {
       const result = await signIn('credentials', {
         email,
         password,
+        captchaToken,
+        captchaAnswer,
         redirect: false,
       })
 
       if (result?.error) {
-        setError('Invalid email or password')
+        setError(result.error)
+        loadCaptcha() // Reload CAPTCHA on error
       } else {
         router.push('/admin/dashboard')
         router.refresh()
       }
     } catch (err) {
       setError('An error occurred. Please try again.')
+      loadCaptcha()
     } finally {
       setIsLoading(false)
     }
@@ -78,6 +101,34 @@ export default function AdminLoginPage() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={isLoading}
+                className="bg-slate-800/50 border-slate-700 text-foreground"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="captcha" className="text-foreground">
+                  Security Check
+                </Label>
+                <button
+                  type="button"
+                  onClick={loadCaptcha}
+                  className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+                  disabled={isLoading}
+                >
+                  <RefreshCw className="h-3 w-3" />
+                  New question
+                </button>
+              </div>
+              <p className="text-sm text-muted-foreground mb-2">{captchaQuestion}</p>
+              <Input
+                id="captcha"
+                type="number"
+                placeholder="Your answer"
+                value={captchaAnswer}
+                onChange={(e) => setCaptchaAnswer(e.target.value)}
                 required
                 disabled={isLoading}
                 className="bg-slate-800/50 border-slate-700 text-foreground"

@@ -33,64 +33,73 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="container mx-auto flex items-center justify-between p-4 lg:px-8" aria-label="Global">
-        <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5">
-            <span className="text-2xl font-bold text-primary font-montserrat">Psych-Skills</span>
-          </Link>
-        </div>
-        
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-foreground"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <span className="sr-only">Open main menu</span>
-            <Menu className="h-6 w-6" aria-hidden="true" />
-          </button>
-        </div>
-        
-        <div className="hidden lg:flex lg:gap-x-8">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-semibold leading-6 text-foreground hover:text-primary transition-colors"
-            >
-              {item.name}
+    <>
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <nav className="container mx-auto flex items-center justify-between p-4 lg:px-8" aria-label="Global">
+          <div className="flex lg:flex-1">
+            <Link href="/" className="-m-1.5 p-1.5">
+              <span className="text-2xl font-bold text-primary font-montserrat">Psych-Skills</span>
             </Link>
-          ))}
-        </div>
-        
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4 lg:items-center">
-          {/* Theme toggle temporarily hidden - dark mode only */}
-          {/* <button
+          </div>
+          
+          <div className="flex lg:hidden">
+            <button
+              type="button"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-foreground"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <span className="sr-only">Open main menu</span>
+              <Menu className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
+          
+          <div className="hidden lg:flex lg:gap-x-8">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-sm font-semibold leading-6 text-foreground hover:text-primary transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+          
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4 lg:items-center">
+            {/* Theme toggle temporarily hidden - dark mode only */}
+            {/* <button
             onClick={toggleTheme}
             className="rounded-md p-2 text-foreground hover:bg-accent transition-colors"
             aria-label="Toggle theme"
           >
             {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button> */}
-          <Button asChild size="lg">
-            <Link href="/bookings">Book a Session</Link>
-          </Button>
-        </div>
-      </nav>
+            <Button asChild size="lg">
+              <Link href="/bookings">Book a Session</Link>
+            </Button>
+          </div>
+        </nav>
+      </header>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - outside header, overlays entire viewport */}
       {mobileMenuOpen && (
-        <div className="lg:hidden" role="dialog" aria-modal="true">
-          <div className="fixed inset-0 z-50" />
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-border">
+        <div className="lg:hidden">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          
+          {/* Slide-in panel */}
+          <div className="fixed inset-y-0 right-0 z-[70] w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-border shadow-2xl">
             <div className="flex items-center justify-between">
               <Link href="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
                 <span className="text-2xl font-bold text-primary font-montserrat">Psych-Skills</span>
               </Link>
               <button
                 type="button"
-                className="-m-2.5 rounded-md p-2.5 text-foreground"
+                className="-m-2.5 rounded-md p-2.5 text-foreground hover:bg-accent"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
@@ -104,7 +113,7 @@ export function Header() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-foreground hover:bg-accent"
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-foreground hover:bg-accent transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.name}
@@ -123,6 +132,6 @@ export function Header() {
           </div>
         </div>
       )}
-    </header>
+    </>
   )
 }

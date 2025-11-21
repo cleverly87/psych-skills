@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { loginRateLimiter } from '@/lib/rate-limit'
+import { verifyCaptcha } from '@/lib/captcha'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -11,10 +12,26 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
+        captchaToken: { label: 'CAPTCHA Token', type: 'text' },
+        captchaAnswer: { label: 'CAPTCHA Answer', type: 'text' },
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) {
           return null
+        }
+
+        // Verify CAPTCHA
+        if (!credentials.captchaToken || !credentials.captchaAnswer) {
+          throw new Error('Please complete the security verification.')
+        }
+
+        const captchaValid = verifyCaptcha(
+          credentials.captchaToken,
+          parseInt(credentials.captchaAnswer)
+        )
+
+        if (!captchaValid) {
+          throw new Error('Incorrect security answer. Please try again.')
         }
 
         // Rate limiting by IP
@@ -23,6 +40,9 @@ export const authOptions: NextAuthOptions = {
         
         const rateLimitResult = loginRateLimiter.check(ip)
         if (!rateLimitResult.success) {
+          if (rateLimitResult.blocked) {
+            throw new Error('Your IP has been temporarily blocked due to too many failed login attempts. Please try again later.')
+          }
           throw new Error('Too many login attempts. Please try again in 15 minutes.')
         }
 
