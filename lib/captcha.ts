@@ -41,8 +41,10 @@ export function verifyCaptcha(token: string, userAnswer: string | number): boole
     }
     
     // Convert userAnswer to number and compare
-    const answer = typeof userAnswer === 'string' ? parseInt(userAnswer) : userAnswer
-    return parseInt(correctAnswer) === answer
+    const answer = typeof userAnswer === 'string' ? parseInt(userAnswer.trim()) : userAnswer
+    const correct = parseInt(correctAnswer)
+    
+    return correct === answer
   } catch {
     return false
   }
