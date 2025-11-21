@@ -35,6 +35,16 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     loadCaptcha()
+    
+    // Also reload CAPTCHA when returning to the page
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        loadCaptcha()
+      }
+    }
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {

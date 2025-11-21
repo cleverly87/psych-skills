@@ -51,6 +51,7 @@ export const authOptions: NextAuthOptions = {
         })
 
         if (!user) {
+          // Failed login - rate limit already counted
           return null
         }
 
@@ -60,8 +61,12 @@ export const authOptions: NextAuthOptions = {
         )
 
         if (!isPasswordValid) {
+          // Failed login - rate limit already counted
           return null
         }
+
+        // Successful login - reset rate limit for this IP
+        loginRateLimiter.reset(ip)
 
         return {
           id: user.id,

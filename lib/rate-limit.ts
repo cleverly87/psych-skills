@@ -113,6 +113,11 @@ export function rateLimit(config: RateLimitConfig) {
         reset: entry.resetAt,
       }
     },
+    reset: (identifier: string): void => {
+      // Reset rate limit for successful login
+      rateLimitStore.delete(identifier)
+      console.log(`✅ Rate limit reset for: ${identifier}`)
+    },
   }
 }
 
