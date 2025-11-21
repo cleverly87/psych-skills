@@ -7,13 +7,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { AlertCircle, RefreshCw } from 'lucide-react'
+import { AlertCircle, RefreshCw, Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
 
 export default function AdminLoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [captchaAnswer, setCaptchaAnswer] = useState('')
   const [captchaQuestion, setCaptchaQuestion] = useState('')
   const [captchaToken, setCaptchaToken] = useState('')
@@ -95,16 +96,26 @@ export default function AdminLoginPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="password" className="text-foreground">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={isLoading}
-                className="bg-slate-800/50 border-slate-700 text-foreground"
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isLoading}
+                  className="bg-slate-800/50 border-slate-700 text-foreground pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  disabled={isLoading}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -125,7 +136,9 @@ export default function AdminLoginPage() {
               <p className="text-sm text-muted-foreground mb-2">{captchaQuestion}</p>
               <Input
                 id="captcha"
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 placeholder="Your answer"
                 value={captchaAnswer}
                 onChange={(e) => setCaptchaAnswer(e.target.value)}
@@ -158,11 +171,6 @@ export default function AdminLoginPage() {
             >
               Forgot your password?
             </Link>
-          </div>
-
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p>Default credentials:</p>
-            <p className="font-mono text-xs mt-1">info@psych-skills.com</p>
           </div>
         </CardContent>
       </Card>

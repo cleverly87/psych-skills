@@ -29,7 +29,7 @@ export function generateCaptcha(): { question: string; answer: number; token: st
   return { question, answer, token }
 }
 
-export function verifyCaptcha(token: string, userAnswer: number): boolean {
+export function verifyCaptcha(token: string, userAnswer: string | number): boolean {
   try {
     const decoded = Buffer.from(token, 'base64').toString('utf-8')
     const [correctAnswer, timestamp] = decoded.split(':')
@@ -40,7 +40,9 @@ export function verifyCaptcha(token: string, userAnswer: number): boolean {
       return false
     }
     
-    return parseInt(correctAnswer) === userAnswer
+    // Convert userAnswer to number and compare
+    const answer = typeof userAnswer === 'string' ? parseInt(userAnswer) : userAnswer
+    return parseInt(correctAnswer) === answer
   } catch {
     return false
   }
