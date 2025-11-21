@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Golf Psychology Services',
-  description: 'Expert golf sports psychology services including 1-2-1 consultancy, group sessions, high performance support, and supervision for trainee psychologists.',
+  description: 'Expert golf sports psychology services including 1-2-1 consultancy, group sessions, high performance support, and supervision for CASES-SEPAR accreditation.',
 }
 
 export default function ServicesPage() {
@@ -219,14 +219,15 @@ export default function ServicesPage() {
                       </h2>
                     </div>
                     <p className="text-lg text-muted-foreground">
-                      Mentoring for trainee sport psychologists via BASES accreditation supervision 
+                      Supervision for CASES-SEPAR accreditation, mentoring to newly qualified and mid-career practitioners and supervisors, 
                       and professional development.
                     </p>
                     <div className="space-y-3 pt-4">
                       <h3 className="font-semibold text-foreground">Supervision Includes:</h3>
                       <ul className="space-y-2">
                         {[
-                          'BASES accreditation supervision',
+                          'Supervision for CASES-SEPAR accreditation',
+                          'Mentoring to newly qualified and mid-career practitioners',
                           'Case discussion and consultation',
                           'Professional development guidance',
                           'Ethical practice and professionalism',
@@ -247,8 +248,8 @@ export default function ServicesPage() {
                     <div>
                       <h3 className="font-semibold text-foreground mb-2">Who is this for?</h3>
                       <p className="text-sm text-muted-foreground mb-6">
-                        Trainee sport and exercise psychologists seeking BASES accreditation 
-                        supervision and professional mentoring.
+                        Trainee sport and exercise psychologists seeking CASES-SEPAR accreditation supervision, 
+                        as well as newly qualified and mid-career practitioners and supervisors.
                       </p>
                     </div>
                     <div className="space-y-3">

@@ -23,8 +23,8 @@ export default function HomePage() {
           <div className="mx-auto max-w-4xl text-center">
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl font-montserrat animate-fade-in">
               Elite Sports Psychology{' '}
-              <span className="bg-gradient-to-r from-emerald-400 via-green-500 to-teal-500 bg-clip-text text-transparent">Proven in Golf</span>,{' '}
-              <span className="text-primary">Applied Across All Sports</span>
+              <span className="bg-gradient-to-r from-emerald-400 via-green-500 to-teal-500 bg-clip-text text-transparent">proven in golf</span>,{' '}
+              <span className="text-primary">applied across all sports</span>
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-300 animate-fade-in">
               Expert sports psychology services by Dr. Denise Hill. Drawing on 25+ years of elite golf experience, 
@@ -58,53 +58,61 @@ export default function HomePage() {
           </div>
           
           <div className="mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <Card className="hover:shadow-lg hover:-translate-y-2 hover:border-primary transition-all duration-300">
-              <CardHeader>
-                <Users className="h-10 w-10 text-primary mb-2" />
-                <CardTitle>1-2-1 Consultancy</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Personalized one-on-one sessions with bespoke mental coaching programs tailored to your individual needs.
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <Link href="/services#one-to-one">
+              <Card className="hover:shadow-lg hover:-translate-y-2 hover:border-primary transition-all duration-300 cursor-pointer h-full">
+                <CardHeader>
+                  <Users className="h-10 w-10 text-primary mb-2" />
+                  <CardTitle>1-2-1 Consultancy</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Personalized one-on-one sessions with bespoke mental coaching programs tailored to your individual needs.
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </Link>
 
-            <Card className="hover:shadow-lg hover:-translate-y-2 hover:border-primary transition-all duration-300">
-              <CardHeader>
-                <BookOpen className="h-10 w-10 text-primary mb-2" />
-                <CardTitle>Group Sessions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Team workshops and group bookings focusing on mindset training for athletes and teams.
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <Link href="/services#group">
+              <Card className="hover:shadow-lg hover:-translate-y-2 hover:border-primary transition-all duration-300 cursor-pointer h-full">
+                <CardHeader>
+                  <BookOpen className="h-10 w-10 text-primary mb-2" />
+                  <CardTitle>Group Sessions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Team workshops and group bookings focusing on mindset training for athletes and teams.
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </Link>
 
-            <Card className="hover:shadow-lg hover:-translate-y-2 hover:border-primary transition-all duration-300">
-              <CardHeader>
-                <Trophy className="h-10 w-10 text-primary mb-2" />
-                <CardTitle>High Performance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Consulting for coaches and organizations to cultivate high-performance environments.
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <Link href="/services#performance">
+              <Card className="hover:shadow-lg hover:-translate-y-2 hover:border-primary transition-all duration-300 cursor-pointer h-full">
+                <CardHeader>
+                  <Trophy className="h-10 w-10 text-primary mb-2" />
+                  <CardTitle>High Performance</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Consulting for coaches and organizations to cultivate high-performance environments.
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </Link>
 
-            <Card className="hover:shadow-lg hover:-translate-y-2 hover:border-primary transition-all duration-300">
-              <CardHeader>
-                <GraduationCap className="h-10 w-10 text-primary mb-2" />
-                <CardTitle>Supervision</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Mentoring for trainee sport psychologists via BASES accreditation supervision.
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <Link href="/services#supervision">
+              <Card className="hover:shadow-lg hover:-translate-y-2 hover:border-primary transition-all duration-300 cursor-pointer h-full">
+                <CardHeader>
+                  <GraduationCap className="h-10 w-10 text-primary mb-2" />
+                  <CardTitle>Supervision</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>
+                    Supervision for CASES-SEPAR accreditation, mentoring to newly qualified and mid-career practitioners and supervisors.
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </Link>
           </div>
 
           <div className="mt-12 text-center">
