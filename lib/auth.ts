@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
 
         const captchaValid = verifyCaptcha(
           credentials.captchaToken,
-          parseInt(credentials.captchaAnswer)
+          credentials.captchaAnswer
         )
 
         if (!captchaValid) {
