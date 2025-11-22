@@ -25,10 +25,17 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Please complete the security verification.')
         }
 
+        console.log('CAPTCHA Verification:', {
+          token: credentials.captchaToken,
+          userAnswer: credentials.captchaAnswer
+        })
+
         const captchaValid = verifyCaptcha(
           credentials.captchaToken,
           credentials.captchaAnswer
         )
+
+        console.log('CAPTCHA Valid:', captchaValid)
 
         if (!captchaValid) {
           throw new Error('Incorrect security answer. Please try again.')

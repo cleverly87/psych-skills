@@ -34,9 +34,14 @@ export function verifyCaptcha(token: string, userAnswer: string | number): boole
     const decoded = Buffer.from(token, 'base64').toString('utf-8')
     const [correctAnswer, timestamp] = decoded.split(':')
     
+    console.log('CAPTCHA Decode:', { decoded, correctAnswer, timestamp, userAnswer })
+    
     // Token expires after 5 minutes
     const tokenAge = Date.now() - parseInt(timestamp)
+    console.log('CAPTCHA Token Age:', tokenAge, 'ms (max: 300000ms)')
+    
     if (tokenAge > 5 * 60 * 1000) {
+      console.log('CAPTCHA token expired')
       return false
     }
     
@@ -44,8 +49,11 @@ export function verifyCaptcha(token: string, userAnswer: string | number): boole
     const answer = typeof userAnswer === 'string' ? parseInt(userAnswer.trim()) : userAnswer
     const correct = parseInt(correctAnswer)
     
+    console.log('CAPTCHA Comparison:', { userAnswer: answer, correctAnswer: correct, match: correct === answer })
+    
     return correct === answer
-  } catch {
+  } catch (error) {
+    console.error('CAPTCHA verification error:', error)
     return false
   }
 }
