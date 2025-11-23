@@ -75,7 +75,7 @@ ${booking.notes ? `Notes: ${booking.notes}` : ''}
         date: booking.date,
         timeSlot: booking.timeSlot,
         notes: booking.notes || undefined,
-        calendarLink: calendarResult.eventLink,
+        calendarLink: calendarResult.eventLink || undefined,
       })
 
       sendEmail({
