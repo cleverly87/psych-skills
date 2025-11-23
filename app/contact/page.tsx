@@ -46,7 +46,7 @@ export default function ContactPage() {
                 <CheckCircle2 className="h-16 w-16 text-primary mx-auto" />
                 <h2 className="text-2xl font-bold text-foreground">Message Sent Successfully!</h2>
                 <p className="text-muted-foreground">
-                  Thank you for getting in touch. We'll respond to your message as soon as possible.
+                  Thank you for getting in touch. Dr. Denise Hill will respond to your message within 24-48 hours.
                 </p>
                 <div className="pt-6 flex gap-4 justify-center">
                   <Button onClick={() => setIsSuccess(false)} variant="outline">

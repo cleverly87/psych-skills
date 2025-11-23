@@ -6,8 +6,22 @@ import Image from 'next/image'
 import { Award, BookOpen, Users, Target, CheckCircle2 } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'About Dr. Denise Hill',
-  description: 'Learn about Dr. Denise Hill, HCPC Registered Practitioner Psychologist and golf sports psychology expert with over 25 years of experience.',
+  title: 'About Dr Denise Hill - Elite Sports & Golf Psychologist',
+  description: 'Meet Dr Denise Hill, CASES-SEPAR accredited sports psychologist with 25+ years experience in elite golf psychology. Expert in mental performance coaching for athletes across all sports. Based in Swansea, Wales.',
+  keywords: [
+    'Dr Denise Hill',
+    'Denise Hill psychologist',
+    'sports psychologist Wales',
+    'golf psychologist UK',
+    'CASES-SEPAR accredited',
+    'elite sports psychology',
+    'golf psychology expert',
+  ],
+  openGraph: {
+    title: 'About Dr Denise Hill - Elite Sports & Golf Psychologist',
+    description: 'CASES-SEPAR accredited sports psychologist with 25+ years in elite golf. Mental performance expert for all athletes.',
+    images: ['/images/Denise.jpg'],
+  },
 }
 
 export default function AboutPage() {

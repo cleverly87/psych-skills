@@ -5,8 +5,21 @@ import { Users, BookOpen, Trophy, GraduationCap, Check } from 'lucide-react'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Golf Psychology Services',
-  description: 'Expert golf sports psychology services including 1-2-1 consultancy, group sessions, high performance support, and supervision for CASES-SEPAR accreditation.',
+  title: 'Sports Psychology Services - Golf & Elite Performance',
+  description: 'Professional sports psychology services by Dr Denise Hill. One-to-one coaching, group workshops, elite performance support, and CASES-SEPAR supervision. Proven in golf, applied across all sports.',
+  keywords: [
+    'sports psychology services',
+    'golf psychology coaching',
+    'mental performance training',
+    'elite sports psychology',
+    'golf mental coaching',
+    'CASES-SEPAR supervision',
+    'sports psychology workshops',
+  ],
+  openGraph: {
+    title: 'Sports Psychology Services - Golf & Elite Performance',
+    description: 'Expert sports psychology by Dr Denise Hill. One-to-one coaching, workshops, and elite performance support.',
+  },
 }
 
 export default function ServicesPage() {

@@ -111,9 +111,9 @@ export default function BookingForm() {
       <Card className="max-w-2xl mx-auto">
         <CardContent className="pt-6 text-center space-y-4">
           <CheckCircle2 className="h-16 w-16 text-primary mx-auto" />
-          <h2 className="text-2xl font-bold text-foreground">Booking Confirmed!</h2>
+          <h2 className="text-2xl font-bold text-foreground">Booking Request Submitted!</h2>
           <p className="text-muted-foreground">
-            Thank you for booking a session. You will receive a confirmation email shortly.
+            Thank you for your booking request. Dr. Denise Hill will review your request and be in touch within 24-48 hours to confirm your session.
           </p>
           <p className="text-sm text-muted-foreground">
             <strong>Important:</strong> No payment is required at this time. Payment will be arranged separately before your session.

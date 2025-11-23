@@ -45,18 +45,18 @@ export default function BookingsPage() {
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-xl font-bold text-primary">1</span>
                 </div>
-                <h3 className="font-semibold mb-2">Confirmation Email</h3>
+                <h3 className="font-semibold mb-2">Submit Your Request</h3>
                 <p className="text-sm text-muted-foreground">
-                  You'll receive a confirmation email with all booking details.
+                  Complete the booking form with your preferred date and time.
                 </p>
               </div>
               <div className="text-center">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-xl font-bold text-primary">2</span>
                 </div>
-                <h3 className="font-semibold mb-2">Dr. Hill Confirms</h3>
+                <h3 className="font-semibold mb-2">Dr. Hill Reviews</h3>
                 <p className="text-sm text-muted-foreground">
-                  Dr. Hill will confirm your booking and may reach out with any questions.
+                  Dr. Hill will review your request and contact you within 24-48 hours to confirm.
                 </p>
               </div>
               <div className="text-center">

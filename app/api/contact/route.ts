@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { sendEmail } from '@/lib/email'
+import { emailTemplates } from '@/lib/email-templates'
 
 export async function POST(req: Request) {
   try {
@@ -31,33 +32,31 @@ export async function POST(req: Request) {
     })
 
     // Send notification to admin
+    const adminEmailTemplate = emailTemplates.contactFormNotification({
+      name,
+      email,
+      subject,
+      message,
+    })
+    
     await sendEmail({
-      to: process.env.ADMIN_EMAIL || 'admin@psych-skills.com',
-      subject: `New Contact Form Submission: ${subject || 'No Subject'}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <ul>
-          <li><strong>Name:</strong> ${name}</li>
-          <li><strong>Email:</strong> ${email}</li>
-          <li><strong>Phone:</strong> ${phone || 'Not provided'}</li>
-          <li><strong>Subject:</strong> ${subject || 'N/A'}</li>
-        </ul>
-        <h3>Message:</h3>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
+      to: process.env.ADMIN_EMAIL || 'info@psych-skills.co.uk',
+      subject: adminEmailTemplate.subject,
+      html: adminEmailTemplate.html,
     })
 
     // Send confirmation to sender
+    const clientEmailTemplate = emailTemplates.contactFormReceived({
+      name,
+      email,
+      subject,
+      message,
+    })
+    
     await sendEmail({
       to: email,
-      subject: 'Thank you for contacting Psych-Skills',
-      html: `
-        <h2>Thank you for your message!</h2>
-        <p>Dear ${name},</p>
-        <p>We've received your message and will get back to you as soon as possible, typically within 24-48 hours.</p>
-        <p>In the meantime, feel free to explore our services or book a session directly.</p>
-        <p>Best regards,<br/>The Psych-Skills Team</p>
-      `,
+      subject: clientEmailTemplate.subject,
+      html: clientEmailTemplate.html,
     })
 
     // Redirect to success page or back to contact with success message

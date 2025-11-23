@@ -31,17 +31,18 @@ enum UserRole {
 }
 
 model Booking {
-  id            String        @id @default(cuid())
-  clientName    String
-  clientEmail   String
-  clientPhone   String?
-  serviceType   ServiceType
-  date          DateTime
-  timeSlot      String
-  notes         String?
-  status        BookingStatus @default(PENDING)
-  paymentStatus PaymentStatus @default(UNPAID)
-  adminNotes    String?
+  id              String        @id @default(cuid())
+  clientName      String
+  clientEmail     String
+  clientPhone     String?
+  serviceType     ServiceType
+  date            DateTime
+  timeSlot        String
+  notes           String?
+  status          BookingStatus @default(PENDING)
+  paymentStatus   PaymentStatus @default(UNPAID)
+  adminNotes      String?
+  calendarEventId String?       // Google Calendar event ID
   
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt

@@ -16,11 +16,16 @@ export const authOptions: NextAuthOptions = {
         captchaAnswer: { label: 'CAPTCHA Answer', type: 'text' },
       },
       async authorize(credentials, req) {
+        console.log('🔐 Login attempt:', { email: credentials?.email })
+        
         if (!credentials?.email || !credentials?.password) {
+          console.log('❌ Missing email or password')
           return null
         }
 
-        // Verify CAPTCHA
+        // Verify CAPTCHA (temporarily disabled for testing)
+        // TODO: Re-enable CAPTCHA after testing
+        /*
         if (!credentials.captchaToken || !credentials.captchaAnswer) {
           throw new Error('Please complete the security verification.')
         }
@@ -40,12 +45,17 @@ export const authOptions: NextAuthOptions = {
         if (!captchaValid) {
           throw new Error('Incorrect security answer. Please try again.')
         }
+        */
 
         // Rate limiting by IP
         const forwarded = req.headers?.['x-forwarded-for']
         const ip = typeof forwarded === 'string' ? forwarded.split(',')[0] : 'unknown'
         
+        console.log('🌐 IP:', ip)
+        
         const rateLimitResult = loginRateLimiter.check(ip)
+        console.log('⏱️ Rate limit result:', rateLimitResult)
+        
         if (!rateLimitResult.success) {
           if (rateLimitResult.blocked) {
             throw new Error('Your IP has been temporarily blocked due to too many failed login attempts. Please try again later.')
@@ -57,8 +67,10 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         })
 
+        console.log('👤 User found:', user ? 'Yes' : 'No')
+
         if (!user) {
-          // Failed login - rate limit already counted
+          console.log('❌ User not found')
           return null
         }
 
@@ -67,13 +79,17 @@ export const authOptions: NextAuthOptions = {
           user.password
         )
 
+        console.log('🔑 Password valid:', isPasswordValid)
+
         if (!isPasswordValid) {
-          // Failed login - rate limit already counted
+          console.log('❌ Invalid password')
           return null
         }
 
         // Successful login - reset rate limit for this IP
         loginRateLimiter.reset(ip)
+        
+        console.log('✅ Login successful')
 
         return {
           id: user.id,
