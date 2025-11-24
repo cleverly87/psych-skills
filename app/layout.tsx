@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { StructuredData } from '@/components/seo/structured-data'
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const montserrat = Montserrat({ 
@@ -101,6 +102,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
