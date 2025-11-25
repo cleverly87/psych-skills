@@ -11,6 +11,7 @@ import {
   removeFromWhitelist,
   getWhitelist,
 } from '@/lib/rate-limit'
+import { getRecentLoginAttempts, getLoginStats } from '@/lib/login-activity'
 
 export async function GET() {
   try {
@@ -23,11 +24,15 @@ export async function GET() {
     const blockedIPs = getBlockedIPs()
     const allStats = getRateLimitStats()
     const whitelist = getWhitelist()
+    const loginActivity = getRecentLoginAttempts(50)
+    const loginStats = getLoginStats()
 
     return NextResponse.json({
       blockedIPs,
       stats: allStats,
       whitelist,
+      loginActivity,
+      loginStats,
     })
   } catch (error) {
     console.error('Failed to get security stats:', error)

@@ -1,0 +1,5 @@
+﻿{
+  "Description": "Domain ownership verification file for Microsoft 365 - place in the website root",
+  "Domain": "psych-skills.co.uk",
+  "Id": "347c7bbb-c321-4b4f-804f-90b1a531954f"
+}

@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { loginRateLimiter } from '@/lib/rate-limit'
 import { verifyCaptcha } from '@/lib/captcha'
+import { logLoginAttempt } from '@/lib/login-activity'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -71,6 +72,7 @@ export const authOptions: NextAuthOptions = {
 
         if (!user) {
           console.log('❌ User not found')
+          logLoginAttempt(ip, credentials.email, false, req.headers?.['user-agent'])
           return null
         }
 
@@ -83,11 +85,13 @@ export const authOptions: NextAuthOptions = {
 
         if (!isPasswordValid) {
           console.log('❌ Invalid password')
+          logLoginAttempt(ip, credentials.email, false, req.headers?.['user-agent'])
           return null
         }
 
         // Successful login - reset rate limit for this IP
         loginRateLimiter.reset(ip)
+        logLoginAttempt(ip, credentials.email, true, req.headers?.['user-agent'])
         
         console.log('✅ Login successful')
 

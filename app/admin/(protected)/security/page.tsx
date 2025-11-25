@@ -19,10 +19,29 @@ interface RateLimitStat {
   blocked: boolean
 }
 
+interface LoginAttempt {
+  ip: string
+  email: string
+  success: boolean
+  timestamp: string
+  userAgent?: string
+}
+
+interface LoginStats {
+  totalAttempts: number
+  successfulLogins: number
+  failedAttempts: number
+  uniqueIPs: number
+  lastSuccessfulLogin?: string
+  lastFailedAttempt?: string
+}
+
 export default function SecurityPage() {
   const [blockedIPs, setBlockedIPs] = useState<BlockedIP[]>([])
   const [stats, setStats] = useState<RateLimitStat[]>([])
   const [whitelist, setWhitelist] = useState<string[]>([])
+  const [loginActivity, setLoginActivity] = useState<LoginAttempt[]>([])
+  const [loginStats, setLoginStats] = useState<LoginStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null)
   const [newBlockIP, setNewBlockIP] = useState('')
@@ -36,6 +55,8 @@ export default function SecurityPage() {
         const data = await response.json()
         setBlockedIPs(data.blockedIPs)
         setStats(data.stats)
+        setLoginActivity(data.loginActivity || [])
+        setLoginStats(data.loginStats || null)
       }
     } catch (error) {
       console.error('Failed to fetch security data:', error)
@@ -349,15 +370,15 @@ export default function SecurityPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Activity className="h-5 w-5" />
-            Recent Login Activity
+            Active Rate Limits
           </CardTitle>
           <CardDescription>
-            All IPs with login attempts in the last 15 minutes
+            IPs with active rate limit counters (resets after 15 minutes of inactivity)
           </CardDescription>
         </CardHeader>
         <CardContent>
           {stats.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No recent activity</p>
+            <p className="text-sm text-muted-foreground">No active rate limits</p>
           ) : (
             <div className="space-y-3">
               {stats.map((item) => (
@@ -388,6 +409,87 @@ export default function SecurityPage() {
                     >
                       {item.blocked ? 'BLOCKED' : `${5 - item.attempts} attempts left`}
                     </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Login History */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                Recent Login Activity
+              </CardTitle>
+              <CardDescription>
+                Last 50 login attempts (successful and failed)
+              </CardDescription>
+            </div>
+            {loginStats && (
+              <div className="text-right text-sm">
+                <p className="text-muted-foreground">
+                  <span className="text-green-600 font-semibold">{loginStats.successfulLogins}</span> successful •{' '}
+                  <span className="text-destructive font-semibold">{loginStats.failedAttempts}</span> failed
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {loginStats.uniqueIPs} unique IPs
+                </p>
+              </div>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          {loginActivity.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No login activity recorded yet</p>
+          ) : (
+            <div className="space-y-2">
+              {loginActivity.map((attempt, index) => (
+                <div
+                  key={index}
+                  className={`flex items-center justify-between p-3 border rounded-lg ${
+                    attempt.success
+                      ? 'border-green-200 bg-green-50/50'
+                      : 'border-red-200 bg-red-50/50'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 flex-1">
+                    <div
+                      className={`w-2 h-2 rounded-full ${
+                        attempt.success ? 'bg-green-600' : 'bg-destructive'
+                      }`}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="font-medium text-sm truncate">{attempt.email}</p>
+                        <span className="text-xs text-muted-foreground">from</span>
+                        <p className="font-mono text-xs">{attempt.ip}</p>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {new Date(attempt.timestamp).toLocaleString('en-GB', {
+                          dateStyle: 'short',
+                          timeStyle: 'medium'
+                        })}
+                        {attempt.userAgent && (
+                          <span className="ml-2 opacity-70">
+                            • {attempt.userAgent.split(' ')[0]}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className={`text-xs font-semibold px-2 py-1 rounded ${
+                      attempt.success
+                        ? 'text-green-700 bg-green-100'
+                        : 'text-red-700 bg-red-100'
+                    }`}
+                  >
+                    {attempt.success ? 'SUCCESS' : 'FAILED'}
                   </div>
                 </div>
               ))}
