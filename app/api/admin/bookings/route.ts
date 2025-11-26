@@ -15,6 +15,11 @@ export async function GET() {
       orderBy: {
         date: 'desc',
       },
+      include: {
+        replies: {
+          orderBy: { createdAt: 'asc' },
+        },
+      },
     })
 
     return NextResponse.json(bookings)

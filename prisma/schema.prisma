@@ -39,6 +39,7 @@ model Booking {
   date            DateTime
   timeSlot        String
   notes           String?
+  message         String?       // Client's initial message
   status          BookingStatus @default(PENDING)
   paymentStatus   PaymentStatus @default(UNPAID)
   adminNotes      String?
@@ -48,6 +49,8 @@ model Booking {
   updatedAt     DateTime      @updatedAt
   createdBy     User?         @relation(fields: [createdById], references: [id])
   createdById   String?
+  
+  replies       BookingReply[]
   
   @@index([date])
   @@index([status])
@@ -163,15 +166,58 @@ model Service {
 }
 
 model ContactSubmission {
-  id            String   @id @default(cuid())
+  id            String          @id @default(cuid())
   name          String
   email         String
   phone         String?
   subject       String?
   message       String
+  status        ContactStatus   @default(ACTIVE)
+  isArchived    Boolean         @default(false)
   
-  createdAt     DateTime @default(now())
+  replies       ContactReply[]
   
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  
+  @@index([createdAt])
+  @@index([status])
+  @@index([isArchived])
+}
+
+enum ContactStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+model ContactReply {
+  id                    String            @id @default(cuid())
+  contactSubmissionId   String
+  contactSubmission     ContactSubmission @relation(fields: [contactSubmissionId], references: [id], onDelete: Cascade)
+  
+  message               String
+  sentBy                String            // 'admin' or 'client'
+  senderEmail           String
+  senderName            String?
+  
+  createdAt             DateTime          @default(now())
+  
+  @@index([contactSubmissionId])
   @@index([createdAt])
 }
 
+model BookingReply {
+  id            String   @id @default(cuid())
+  bookingId     String
+  booking       Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  
+  message       String
+  sentBy        String   // 'admin' or 'client'
+  senderEmail   String
+  senderName    String?
+  
+  createdAt     DateTime @default(now())
+  
+  @@index([bookingId])
+  @@index([createdAt])
+}
