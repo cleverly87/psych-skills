@@ -252,12 +252,28 @@ export async function monitorInboxForReplies() {
     let processed = 0
     let errors = 0
 
-    for (const email of messages.value as IncomingEmail[]) {
+    for (const email of messages.value) {
       try {
-        console.log(`\n📨 Processing email: "${email.subject}" from ${email.from.emailAddress.address}`)
-        
-        // Skip notification emails (sent by the system)
-        if (isNotificationEmail(email)) {
+        console.log(`\n📨 Processing email: "${email.subject}" from ${email.from?.emailAddress?.address}`)
+
+        // Skip if email is from our own address (Dr. Denise replying from Outlook)
+        if (email.from?.emailAddress?.address?.toLowerCase() === process.env.EMAIL_SERVER_USER?.toLowerCase()) {
+          console.log(`⏭️  Skipping email from our own address: ${email.from.emailAddress.address}`)
+          continue
+        }
+
+        // Skip notification emails
+        if (
+          email.subject?.includes('New Contact Submission') ||
+          email.subject?.includes('Booking Confirmed') ||
+          email.subject?.includes('Booking Update') ||
+          email.subject?.includes('New Session Booked') ||
+          email.subject?.includes('Booking Declined') ||
+          email.subject?.includes('Booking Cancelled') ||
+          email.from?.emailAddress?.address?.toLowerCase().includes('no-reply') ||
+          email.from?.emailAddress?.address?.toLowerCase().includes('noreply') ||
+          email.from?.emailAddress?.address?.toLowerCase() === 'info@psych-skills.co.uk' // Emails from ourselves
+        ) {
           console.log(`⏭️  Skipping notification email: ${email.subject}`)
           continue
         }
