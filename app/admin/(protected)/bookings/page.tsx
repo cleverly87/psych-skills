@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Calendar, Clock, User, Mail, Phone, Trash2 } from 'lucide-react'
+import { Calendar, Clock, User, Mail, Phone, Trash2, Eye } from 'lucide-react'
 import { BookingActions } from '@/components/admin/booking-actions'
 
 type BookingStatus = 'PENDING' | 'CONFIRMED' | 'DECLINED' | 'CANCELLED' | 'COMPLETED'
@@ -25,6 +26,7 @@ interface Booking {
 }
 
 export default function BookingsPage() {
+  const router = useRouter()
   const [bookings, setBookings] = useState<Booking[]>([])
   const [activeTab, setActiveTab] = useState<'all' | 'pending' | 'confirmed'>('all')
   const [isLoading, setIsLoading] = useState(true)
@@ -270,6 +272,14 @@ export default function BookingsPage() {
 
                     {/* Actions */}
                     <div className="flex flex-col gap-2 lg:min-w-[200px]">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => router.push(`/admin/bookings/${booking.id}`)}
+                      >
+                        <Eye className="h-4 w-4 mr-2" />
+                        View Details
+                      </Button>
                       {booking.status === 'PENDING' && (
                         <BookingActions bookingId={booking.id} onUpdate={fetchBookings} />
                       )}

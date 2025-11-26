@@ -348,7 +348,7 @@ export const emailTemplates = {
    * Email sent to admin when contact form is submitted
    */
   contactFormNotification: (params: ContactFormParams): EmailTemplate => ({
-    subject: `📨 New Contact Form: ${params.subject || 'No Subject'} - ${params.name}`,
+    subject: `📬 New Contact Submission - Please Login to View`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -359,36 +359,33 @@ export const emailTemplates = {
             .header { background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
             .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
             .info-box { background: white; padding: 20px; margin: 20px 0; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-            .info-box h3 { margin-top: 0; color: #047857; border-bottom: 2px solid #10b981; padding-bottom: 10px; }
-            .info-box ul { list-style: none; padding: 0; }
-            .info-box li { padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
-            .info-box li:last-child { border-bottom: none; }
-            .message-box { background: #f0f9ff; padding: 20px; border-left: 4px solid #0891b2; border-radius: 4px; margin: 20px 0; }
+            .button { background: #0891b2; color: white !important; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0; font-weight: bold; }
           </style>
         </head>
         <body>
           <div class="container">
             <div class="header">
-              <h1 style="margin: 0;">📨 New Contact Form Submission</h1>
+              <h1 style="margin: 0;">📬 New Contact Submission</h1>
             </div>
             <div class="content">
               <div class="info-box">
-                <h3>Contact Information</h3>
-                <ul>
-                  <li><strong>Name:</strong> ${params.name}</li>
-                  <li><strong>Email:</strong> <a href="mailto:${params.email}">${params.email}</a></li>
-                  ${params.subject ? `<li><strong>Subject:</strong> ${params.subject}</li>` : ''}
-                </ul>
+                <p style="font-size: 16px; margin: 0;">
+                  You have received a new contact form submission from:
+                </p>
+                <h3 style="color: #0891b2; margin: 15px 0 5px 0;">${params.name}</h3>
+                <p style="color: #6b7280; margin: 0;">${params.email}</p>
+                ${params.subject ? `<p style="color: #6b7280; margin: 10px 0 0 0;"><strong>Subject:</strong> ${params.subject}</p>` : ''}
               </div>
               
-              <div class="message-box">
-                <h3 style="color: #0891b2; margin-top: 0;">Message</h3>
-                <p>${params.message.replace(/\n/g, '<br>')}</p>
-              </div>
+              <p style="text-align: center;">
+                <a href="https://www.psych-skills.co.uk/admin/contact-submissions" class="button">
+                  View Message & Reply
+                </a>
+              </p>
               
-              <p style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e5e7eb; color: #6b7280; font-size: 14px;">
-                <strong>⏰ Response Time:</strong> Please respond within 24-48 hours.<br/>
-                The client has received an automated acknowledgment email.
+              <p style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e5e7eb; color: #6b7280; font-size: 14px; text-align: center;">
+                The client has received an automated acknowledgment.<br/>
+                Please login to your admin dashboard to view the full message and reply.
               </p>
             </div>
           </div>
@@ -396,4 +393,83 @@ export const emailTemplates = {
       </html>
     `,
   }),
+}
+
+// Simple helper functions for direct use
+export const bookingConfirmedEmail = (params: {
+  clientName: string
+  serviceType: string
+  date: string
+  timeSlot: string
+}) => {
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background: linear-gradient(135deg, #047857 0%, #10b981 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+          .success-badge { background: #d1fae5; color: #065f46; padding: 10px 20px; border-radius: 20px; display: inline-block; font-weight: bold; margin: 10px 0; }
+          .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
+          .info-box { background: white; padding: 20px; border-left: 4px solid #10b981; margin: 20px 0; border-radius: 4px; }
+          .info-box ul { list-style: none; padding: 0; }
+          .info-box li { padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
+          .info-box li:last-child { border-bottom: none; }
+          .info-box strong { color: #047857; }
+          .preparation { background: #ecfdf5; padding: 20px; border-radius: 4px; margin: 20px 0; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1 style="margin: 0;">Your Session is Confirmed!</h1>
+          </div>
+          <div class="content">
+            <p>Dear ${params.clientName},</p>
+            
+            <p>Great news! Your session has been confirmed. I'm looking forward to working with you.</p>
+            
+            <div class="info-box">
+              <h3 style="color: #047857; margin-top: 0;">Confirmed Session Details</h3>
+              <ul>
+                <li><strong>Service:</strong> ${params.serviceType.replace(/_/g, ' ')}</li>
+                <li><strong>Date:</strong> ${params.date}</li>
+                <li><strong>Time:</strong> ${params.timeSlot}</li>
+                <li><strong>Location:</strong> To be confirmed</li>
+              </ul>
+            </div>
+            
+            <div class="info-box">
+              <p><strong>📅 Calendar Invite Attached</strong></p>
+              <p>A calendar invitation has been attached to this email. Click it to add this session to your calendar.</p>
+            </div>
+            
+            <div class="preparation">
+              <h3 style="color: #047857; margin-top: 0;">What Happens Next</h3>
+              <ul>
+                <li>Location details and payment information will be discussed in a follow-up communication</li>
+                <li>Think about specific goals or challenges you'd like to address</li>
+                <li>Bring any relevant performance data or notes if applicable</li>
+              </ul>
+            </div>
+            
+            <p><strong>Need to reschedule?</strong> Please provide at least 48 hours notice.</p>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e5e7eb;">
+              <p><strong>Best regards,</strong></p>
+              <p><strong>Dr. Denise Hill</strong><br/>
+              Elite Sports Psychologist<br/>
+              CASES-SEPAR Accredited<br/>
+              Psych-Skills</p>
+              <p style="color: #6b7280; font-size: 14px;">
+                📧 info@psych-skills.co.uk<br/>
+                🌐 www.psych-skills.com
+              </p>
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>
+  `
 }

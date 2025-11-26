@@ -129,66 +129,37 @@ export function BookingActions({ bookingId, onUpdate }: { bookingId: string; onU
             Decline
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle>Decline Booking</DialogTitle>
             <DialogDescription>
-              Optionally add a message to the client explaining why this booking cannot be accommodated.
+              Please provide a reason for declining this booking. The client will receive an email with your message.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="decline-message">Message (Optional)</Label>
+              <Label htmlFor="decline-message">Message (Required)</Label>
               <Textarea
                 id="decline-message"
-                placeholder="Sorry, I'm unavailable at this time..."
+                placeholder="I apologize, but I'm unavailable at this time..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                required
               />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setMessage('')}>
-              Back
-            </Button>
-            <Button variant="destructive" onClick={handleDecline} disabled={isLoading}>
+            <DialogTrigger asChild>
+              <Button variant="outline" type="button">
+                Back
+              </Button>
+            </DialogTrigger>
+            <Button 
+              variant="destructive" 
+              onClick={handleDecline} 
+              disabled={isLoading || !message.trim()}
+            >
               Decline Booking
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="secondary" disabled={isLoading}>
-            <XCircle className="h-4 w-4 mr-2" />
-            Cancel
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Cancel Booking</DialogTitle>
-            <DialogDescription>
-              Cancel this booking (e.g., client requested cancellation, unforeseen circumstances, etc.).
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="cancel-reason">Reason (Optional)</Label>
-              <Textarea
-                id="cancel-reason"
-                placeholder="Client requested cancellation..."
-                value={cancelReason}
-                onChange={(e) => setCancelReason(e.target.value)}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setCancelReason('')}>
-              Back
-            </Button>
-            <Button variant="default" onClick={handleCancel} disabled={isLoading} className="bg-amber-500 hover:bg-amber-600">
-              Cancel Booking
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -201,53 +172,57 @@ export function BookingActions({ bookingId, onUpdate }: { bookingId: string; onU
             Propose Alternative
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle>Propose Alternative Time</DialogTitle>
             <DialogDescription>
-              Suggest an alternative date and time for this booking.
+              Suggest an alternative date and time for this booking. The client will receive an email with your proposal.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="alt-date">Alternative Date</Label>
+                <Label htmlFor="alt-date">Alternative Date (Required)</Label>
                 <Input
                   id="alt-date"
                   type="date"
                   value={alternativeDate}
                   onChange={(e) => setAlternativeDate(e.target.value)}
+                  required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="alt-time">Alternative Time</Label>
+                <Label htmlFor="alt-time">Alternative Time (Required)</Label>
                 <Input
                   id="alt-time"
                   type="time"
                   value={alternativeTime}
                   onChange={(e) => setAlternativeTime(e.target.value)}
+                  required
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="alt-message">Message (Optional)</Label>
+              <Label htmlFor="alt-message">Message (Required)</Label>
               <Textarea
                 id="alt-message"
                 placeholder="I'm unavailable at your requested time, but I have availability at..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                required
               />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => {
-              setAlternativeDate('')
-              setAlternativeTime('')
-              setMessage('')
-            }}>
-              Cancel
-            </Button>
-            <Button onClick={handleProposeAlternative} disabled={isLoading || !alternativeDate || !alternativeTime}>
+            <DialogTrigger asChild>
+              <Button variant="outline" type="button">
+                Back
+              </Button>
+            </DialogTrigger>
+            <Button 
+              onClick={handleProposeAlternative} 
+              disabled={isLoading || !alternativeDate || !alternativeTime || !message.trim()}
+            >
               Send Proposal
             </Button>
           </DialogFooter>
