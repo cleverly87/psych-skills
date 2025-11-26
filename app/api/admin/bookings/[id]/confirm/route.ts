@@ -28,7 +28,7 @@ export async function POST(
     const calendarInvite = generateCalendarInvite({
       clientName: booking.clientName,
       clientEmail: booking.clientEmail,
-      clientPhone: booking.clientPhone,
+      clientPhone: booking.clientPhone || 'Not provided',
       serviceType: booking.serviceType,
       date: booking.date,
       timeSlot: booking.timeSlot,
