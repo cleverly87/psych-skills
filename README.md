@@ -17,6 +17,7 @@ A production-ready, enterprise-grade web application for sports psychology servi
 
 ## 📖 Project Overview
 
+
 **Psych-Skills** is a full-stack web application built for professional sports psychology services. This platform combines modern web technologies with user-centric design to deliver a seamless experience for both clients and administrators. The system handles everything from service discovery and booking to content management and customer relationship tracking.
 
 ### 🎯 Purpose
