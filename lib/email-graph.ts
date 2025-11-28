@@ -52,6 +52,11 @@ export async function sendEmailViaGraph(options: SendEmailOptions): Promise<bool
           contentType: 'HTML',
           content: options.html
         },
+        from: {
+          emailAddress: {
+            address: process.env.EMAIL_SERVER_USER
+          }
+    },
         toRecipients: [
           {
             emailAddress: {
